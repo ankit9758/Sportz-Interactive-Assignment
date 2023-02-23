@@ -13,44 +13,25 @@ import javax.inject.Inject
 
 
 class MainRepository @Inject constructor(private val apiService: ApiService) : SafeApiRequest() {
-    private var matchList=ArrayList<MatchResponseModel>()
+    private var matchList = ArrayList<MatchResponseModel>()
     fun getMatchDetails(): Flow<DataState<ArrayList<MatchResponseModel>>> = flow {
         emit(DataState.Loading)
         try {
 
             val firstMatchDetailData = apiRequest {
-                apiService.getFirstMatchDetails()
+                apiService.getMatchDetails(AppConstants.FIRST_MATCH_DETAILS)
             }
             val secondMatchDetailData = apiRequest {
-                apiService.getSecondMatchDetails()
+                apiService.getMatchDetails(AppConstants.SECOND_MATCH_DETAILS)
             }
             //first Data
-         //   Log.d("Data----1", Gson().toJson(firstMatchDetailData))
-            var teamsDataList = ArrayList<TeamsData>()
-            firstMatchDetailData.Teams.forEach { (keys, values) ->
-                val playerList = ArrayList<PlayersData>()
-                values.Players?.forEach { (key, value) ->
-                    playerList.add(value)
-                }
-                teamsDataList.add(TeamsData(values.Name_Full, values.Name_Short, playerList))
-                println("Data----3  $keys = $values")
-            }
-           matchList.add(MatchResponseModel(firstMatchDetailData.Matchdetail, teamsDataList))
-
-           //second Data
-             teamsDataList = ArrayList<TeamsData>()
-            secondMatchDetailData.Teams.forEach { (keys, values) ->
-                val playerList = ArrayList<PlayersData>()
-                values.Players?.forEach { (key, value) ->
-                    playerList.add(value)
-                }
-                teamsDataList.add(TeamsData(values.Name_Full, values.Name_Short, playerList))
-                println("Data----3  $keys = $values")
-            }
-
-            matchList.add(MatchResponseModel(secondMatchDetailData.Matchdetail, teamsDataList))
+            val firstMatchData=filterMatchData(firstMatchDetailData)
+            matchList.add(firstMatchData)
+            //second Data
+            val secondMatchData=filterMatchData(secondMatchDetailData)
+            matchList.add(secondMatchData)
+            
             emit(DataState.Success(matchList))
-            Log.d("Data----final", Gson().toJson(matchList))
         } catch (e: NoInternetException) {
             emit(DataState.Error(Exception("No Internet connection")))
         } catch (e: ApiException) {
@@ -62,6 +43,18 @@ class MainRepository @Inject constructor(private val apiService: ApiService) : S
         }
 
     }.flowOn(Dispatchers.IO)
+
+    private fun filterMatchData(matchDetailData: MatchTestResponseModel): MatchResponseModel {
+        val teamsDataList = ArrayList<TeamsData>()
+        matchDetailData.Teams.forEach { (keys, values) ->
+            val playerList = ArrayList<PlayersData>()
+            values.Players?.forEach { (key, value) ->
+                playerList.add(value)
+            }
+            teamsDataList.add(TeamsData(values.Name_Full, values.Name_Short, playerList))
+        }
+        return MatchResponseModel(matchDetailData.Matchdetail, teamsDataList)
+    }
 
 
 }

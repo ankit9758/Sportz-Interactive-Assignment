@@ -4,11 +4,10 @@ import com.example.sportzinteractivedemo.match.models.MatchTestResponseModel
 import com.example.sportzinteractivedemo.utils.AppConstants
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
-    @GET(AppConstants.FIRST_MATCH_DETAILS)
-    suspend fun getFirstMatchDetails(): Response<MatchTestResponseModel>
-
-    @GET(AppConstants.SECOND_MATCH_DETAILS)
-    suspend fun getSecondMatchDetails(): Response<MatchTestResponseModel>
+    @GET("{matchPath}")
+    suspend fun getMatchDetails(@Path("matchPath") matchPath:String): Response<MatchTestResponseModel>
 }
