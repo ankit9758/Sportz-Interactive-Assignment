@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">SportzInteractiveDemo</string>
+    <string name="ok">Ok</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="show_detail">Show Detail</string>
+    <string name="squad">Squad</string>
+    <string name="bowling">Bowling</string>
+    <string name="batting">Batting</string>
+    <string name="show_both_team">Show Both Team</string>
+</resources>

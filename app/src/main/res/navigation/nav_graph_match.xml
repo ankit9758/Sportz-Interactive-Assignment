@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_match"
+    app:startDestination="@id/matchFragment">
+
+    <fragment
+        android:id="@+id/matchFragment"
+        android:name="com.example.sportzinteractivedemo.match.ui.fragments.MatchFragment"
+        android:label="Match Info"
+        tools:layout="@layout/fragment_match" >
+        <action
+            android:id="@+id/action_matchFragment_to_playersFragment"
+            app:destination="@id/playersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/playersFragment"
+        android:name="com.example.sportzinteractivedemo.match.ui.fragments.PlayersFragment"
+        android:label="Squad List"
+        tools:layout="@layout/fragment_players" >
+        <argument
+            android:name="matchData"
+            app:argType="com.example.sportzinteractivedemo.match.models.MatchResponseModel" />
+        <action
+            android:id="@+id/action_playersFragment_to_matchFragment"
+            app:destination="@id/matchFragment" />
+    </fragment>
+</navigation>
