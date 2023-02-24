@@ -1,10 +1,8 @@
 package com.example.sportzinteractivedemo.match.repository
 
-import android.util.Log
 import com.example.sportzinteractivedemo.match.models.*
 import com.example.sportzinteractivedemo.match.network.ApiService
 import com.example.sportzinteractivedemo.utils.*
-import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -30,7 +28,7 @@ class MainRepository @Inject constructor(private val apiService: ApiService) : S
             //second Data
             val secondMatchData=filterMatchData(secondMatchDetailData)
             matchList.add(secondMatchData)
-            
+
             emit(DataState.Success(matchList))
         } catch (e: NoInternetException) {
             emit(DataState.Error(Exception("No Internet connection")))
@@ -44,7 +42,7 @@ class MainRepository @Inject constructor(private val apiService: ApiService) : S
 
     }.flowOn(Dispatchers.IO)
 
-    private fun filterMatchData(matchDetailData: MatchTestResponseModel): MatchResponseModel {
+    private fun filterMatchData(matchDetailData: MatchResponseModelDTO): MatchResponseModel {
         val teamsDataList = ArrayList<TeamsData>()
         matchDetailData.Teams.forEach { (keys, values) ->
             val playerList = ArrayList<PlayersData>()

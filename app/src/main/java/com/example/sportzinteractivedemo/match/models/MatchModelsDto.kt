@@ -1,11 +1,11 @@
 package com.example.sportzinteractivedemo.match.models
 
 
-data class MatchTestResponseModel(
+data class MatchResponseModelDTO(
     var Matchdetail:MatchDetailData?,
-    var Teams:Map<String,TeamTestDataModel>
+    var Teams:Map<String,TeamTestDataModelDTO>
 )
-data class TeamTestDataModel(
+data class TeamTestDataModelDTO(
       val Name_Full:String?,
       val Name_Short:String?,
       val Players:HashMap<String,PlayersData>?,
